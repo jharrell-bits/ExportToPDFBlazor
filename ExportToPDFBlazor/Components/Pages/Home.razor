@@ -1,0 +1,87 @@
+﻿@page "/"
+@using ExportToPDFBlazor.Models
+@rendermode InteractiveServer
+
+<PageTitle>Widgets</PageTitle>
+
+<div id="SectionToPrint">
+
+    <div class="hideonprint">
+        <h1>Widgets</h1>
+
+        <div class="d-flex flex-row justify-content-between align-items-center mb-2">
+            <div>This component demonstrates exporting data to PDF.</div>
+            <div><button class="btn btn-secondary" type="button" @onclick="OnExportClick">Export</button></div>
+        </div>
+    </div>
+
+    <h1 class="showonprint text-center">Widgets Report</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col" class="text-end">Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var widget in Widgets)
+            {
+                <tr>
+                    <td>@widget.Id</td>
+                    <td>@widget.Name</td>
+                    <td>@widget.Description</td>
+                    <td class="text-end">$@widget.Price.ToString("N2")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private List<Widget> Widgets { get; set; } = new List<Widget>();
+
+    [Inject]
+    private IJSRuntime _jsRuntime { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Widgets = GetWidgets();
+    }
+
+    private async Task OnExportClick()
+    {
+        // export the WeatherDataToPrint div to a PDF titled WeatherData.pdf
+        await _jsRuntime.InvokeVoidAsync("ExportToPDFBlazor.ExportToPDF", new object[] { "SectionToPrint", "WidgetReport.pdf" });
+    }
+
+    public List<Widget> GetWidgets()
+    {
+        return new List<Widget>()
+        {
+            new Widget()
+            {
+                Id = 1,
+                Name = "Widget1",
+                Description = "Widget 1",
+                Price = 1m
+            },
+            new Widget()
+            {
+                Id = 2,
+                Name = "Widget2",
+                Description = "Widget 2",
+                Price = 10m
+            },
+            new Widget()
+            {
+                Id = 3,
+                Name = "Widget3",
+                Description = "Widget 3",
+                Price = 100m
+            }
+        };
+    }
+}

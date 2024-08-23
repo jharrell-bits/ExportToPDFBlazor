@@ -1,0 +1,14 @@
+[
+  {
+    "outputFileName": "wwwroot/js/ExportToPDFBlazor.min.js",
+    "inputFiles": [
+      "wwwroot/js/ExportToPDFBlazor.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/app.min.css",
+    "inputFiles": [
+      "wwwroot/app.css"
+    ]
+  }
+]
